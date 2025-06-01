@@ -39,6 +39,12 @@
       "expo-localization",
       "expo-font",
       [
+        "expo-location",
+        {
+            "isAndroidBackgroundLocationEnabled": true
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/app-icon-android-adaptive-foreground.png",
@@ -46,10 +52,23 @@
           "resizeMode": "contain",
           "backgroundColor": "#191015"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+            "android": {
+                "usesCleartextTraffic": true
+            }
+        }
       ]
     ],
     "experiments": {
       "tsconfigPaths": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "add1005f-6002-4753-aa68-a27da197a362"
+      }
     }
   },
   "ignite": {

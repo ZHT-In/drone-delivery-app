@@ -10,7 +10,6 @@ import { observer } from "mobx-react-lite"
 import * as Screens from "@/screens"
 import Config from "../config"
 import { useStores } from "../models"
-import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
 import { ComponentProps } from "react"
@@ -29,11 +28,11 @@ import { ComponentProps } from "react"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
-  Login: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList>
-  // 🔥 Your screens go here
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+    Welcome: undefined
+    Login: undefined
+    // 🔥 Your screens go here
+    Home: undefined
+	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -43,64 +42,64 @@ export type AppStackParamList = {
 const exitRoutes = Config.exitRoutes
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
-  AppStackParamList,
-  T
+    AppStackParamList,
+    T
 >
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
-  const {
-    authenticationStore: { isAuthenticated },
-  } = useStores()
+    const {
+        authenticationStore: { isAuthenticated },
+    } = useStores()
 
-  const {
-    theme: { colors },
-  } = useAppTheme()
+    const {
+        theme: { colors },
+    } = useAppTheme()
 
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        navigationBarColor: colors.background,
-        contentStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
-    >
-      {isAuthenticated ? (
-        <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                navigationBarColor: colors.background,
+                contentStyle: {
+                    backgroundColor: colors.background,
+                },
+            }}
+            initialRouteName={isAuthenticated ? "Home" : "Login"}
+        >
+            {isAuthenticated ? (
+                <>
+                    {/* <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} /> */}
+                    <Stack.Screen name="Home" component={Screens.HomeScreen} />
+                </>
+            ) : (
+                <>
+                    <Stack.Screen name="Login" component={Screens.LoginScreen} />
+                </>
+            )}
 
-          <Stack.Screen name="Demo" component={DemoNavigator} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={Screens.LoginScreen} />
-        </>
-      )}
-
-      {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
-    </Stack.Navigator>
-  )
+            {/** 🔥 Your screens go here */}
+            {/* <Stack.Screen name="Home" component={Screens.HomeScreen} /> */}
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+        </Stack.Navigator>
+    )
 })
 
-export interface NavigationProps extends Partial<ComponentProps<typeof NavigationContainer>> {}
+export interface NavigationProps extends Partial<ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
-  const { themeScheme, navigationTheme, setThemeContextOverride, ThemeProvider } =
-    useThemeProvider()
+    const { themeScheme, navigationTheme, setThemeContextOverride, ThemeProvider } =
+        useThemeProvider('light')
 
-  useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
+    useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 
-  return (
-    <ThemeProvider value={{ themeScheme, setThemeContextOverride }}>
-      <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>
-        <AppStack />
-      </NavigationContainer>
-    </ThemeProvider>
-  )
+    return (
+        <ThemeProvider value={{ themeScheme, setThemeContextOverride }}>
+            <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>
+                <AppStack />
+            </NavigationContainer>
+        </ThemeProvider>
+    )
 })

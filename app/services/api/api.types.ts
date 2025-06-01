@@ -34,6 +34,16 @@ export interface ApiFeedResponse {
   items: EpisodeItem[]
 }
 
+export interface Response {
+    code: number
+    msg: string
+    data?: any
+}
+
+export interface Coors {
+    coords: Array<[number, number]>
+}
+
 /**
  * The options used to configure apisauce.
  */

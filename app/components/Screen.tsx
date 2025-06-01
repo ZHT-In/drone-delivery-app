@@ -237,6 +237,7 @@ function ScreenWithScrolling(props: ScreenProps) {
  * @param {ScreenProps} props - The props for the `Screen` component.
  * @returns {JSX.Element} The rendered `Screen` component.
  */
+
 export function Screen(props: ScreenProps) {
   const {
     theme: { colors },

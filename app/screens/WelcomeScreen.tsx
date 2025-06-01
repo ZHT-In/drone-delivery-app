@@ -23,10 +23,6 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
     authenticationStore: { logout },
   } = useStores()
 
-  function goNext() {
-    navigation.navigate("Demo", { screen: "DemoShowroom", params: {} })
-  }
-
   useHeader(
     {
       rightTx: "common:logOut",
@@ -63,7 +59,6 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
           testID="next-screen-button"
           preset="reversed"
           tx="welcomeScreen:letsGo"
-          onPress={goNext}
         />
       </View>
     </Screen>

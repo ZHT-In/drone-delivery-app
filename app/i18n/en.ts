@@ -33,14 +33,14 @@ const en = {
     invalidEmail: "Invalid email address.",
   },
   loginScreen: {
-    logIn: "Log In",
+    logIn: "登录",
     enterDetails:
-      "Enter your details below to unlock top secret info. You'll never guess what we've got waiting. Or maybe you will; it's not rocket science here.",
-    emailFieldLabel: "Email",
-    passwordFieldLabel: "Password",
+      "请输入您的邮箱及密码进行登录",
+    emailFieldLabel: "邮箱", // 暂时改动一下
+    passwordFieldLabel: "密码",
     emailFieldPlaceholder: "Enter your email address",
     passwordFieldPlaceholder: "Super secret password here",
-    tapToLogIn: "Tap to log in!",
+    tapToLogIn: "登录",
     hint: "Hint: you can use any email address and your favorite password :)",
   },
   demoNavigator: {

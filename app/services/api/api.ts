@@ -8,7 +8,7 @@
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
-import type { ApiConfig, ApiFeedResponse } from "./api.types"
+import type { ApiConfig, ApiFeedResponse, Coors, Response } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
 
 /**
@@ -73,6 +73,35 @@ export class Api {
       }
       return { kind: "bad-data" }
     }
+  }
+
+  /**
+   * Send coordinates to the drone to drive it move from 'startCoords' to 'endCoords'  
+   */
+  async sendCoordinates(data: Coors): Promise<{ kind: "ok" } | GeneralApiProblem> {
+    const response: ApiResponse<Response> = await this.apisauce.post(
+        `coords`,
+        data,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        },
+    )
+    
+    if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+    }
+
+    const { data: serverRsp } = response
+    if (serverRsp?.code == 400) {
+        return { kind: "bad-data" }
+    } else if (serverRsp?.code == 500) {
+        return { kind: "server" }
+    }
+
+    return { kind: "ok" }
   }
 }
 
